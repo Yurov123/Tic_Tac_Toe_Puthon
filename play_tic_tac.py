@@ -1,3 +1,4 @@
+# Импортируем необходимые нам элементы:
 from kivy.app import App
  
 from kivy.uix.boxlayout import BoxLayout
@@ -5,18 +6,21 @@ from kivy.uix.gridlayout import GridLayout
  
 from kivy.uix.button import Button
 from kivy.config import Config
- 
+
+# С помощью Config и функции set зададим параметры нашего окна 300х300: 
 Config.set("graphics","resizable","0")
 Config.set("graphics","width","300")
 Config.set("graphics","height","300")
  
  
 class MainApp(App):
+    """Класс для нового хода, крестик, сменяется ноликом и наоборот"""
     def __init__(self):
-        super().__init__()
-        self.switch = True
+        super().__init__() # инициализирует родительский класс App.
+        self.switch = True 
  
     def tic_tac_toe(self, arg):
+        #  функция исполняет всю логику нашего приложения
         arg.disabled = True
         arg.text = 'X' if self.switch else 'O'
         self.switch = not self.switch
@@ -32,6 +36,7 @@ class MainApp(App):
         color = [0,1,0,1]
  
         for item in coordinate:
+            # цикл, который будет определять победную комбинацию нажатых кнопок
             if vector(item).count('X') == 3 or vector(item).count('O') == 3:
                 win = True
                 for i in item:
@@ -41,6 +46,8 @@ class MainApp(App):
                 break
  
     def restart(self, arg):
+        # : функция, которую мы будем вызывать для того, чтобы перезапустить игру,
+        #  по сути сбросив все значения кнопок и переменных до начального состояния
         self.switch = True
  
         for button in self.buttons:
@@ -49,6 +56,7 @@ class MainApp(App):
             button.disabled = False
  
     def build(self):
+        # Функция строит наш инрефейс процесса игры
         self.title = "Крестики-нолики"
  
         root = BoxLayout(orientation="vertical", padding=5)
@@ -66,7 +74,7 @@ class MainApp(App):
             grid.add_widget(button)
  
         root.add_widget(grid)
- 
+        # виджет для кнопки Restart
         root.add_widget(
             Button(
                text = "Restart",
